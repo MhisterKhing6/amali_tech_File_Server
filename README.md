@@ -15,6 +15,8 @@
     <li><b>Config:</b> Contains configuration variables for server </li>
     <li><b>controllers:</b> modules that controls interface endpoints</li>
     <li><b>models:</b> database schemas</li>
+    <li><b>utils:</b>utility funtions</li>
+    <li><b>test:</b>testing modules and functions for the project</li>
     <li><b>server.js</b> Entry for application</li>
 </ul>
 </li>

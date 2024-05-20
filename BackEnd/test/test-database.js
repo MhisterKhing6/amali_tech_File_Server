@@ -11,6 +11,9 @@ describe("database CRUD operations and connection", () => {
         testObjectDb = new UserModel(testObject)
         await testObjectDb.save()
     })
+    after(async() => {
+        await UserModel.deleteOne({ _id: testObjectDb._id });
+    })
     it("should save user instance in the database", async ()=>{
          let user = await UserModel.findOne({email:testObjectDb.email})
          assert.equal(user.name, testObject.name)
