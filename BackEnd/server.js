@@ -12,6 +12,7 @@ connectDb()
 //middlewares
 fileServer.use(Cors()) //cross origin communication
 fileServer.use(Express.json()) // json body parsing
+fileServer.use(Express.urlencoded({ extended: false }))
 
 fileServer.get("/", (req, res) => {
     return res.send("ok i am working")
