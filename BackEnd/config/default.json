@@ -2,5 +2,9 @@
     "host": {
         "port":8000,
         "ip": "localhost"
+    },
+    "db": {
+        "connectionString": "mongodb+srv://autoccoder:mtZ90Ud5hX04X4H4@cluster0.lguajgx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
     }
 }

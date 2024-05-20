@@ -1,9 +1,13 @@
 import Express from "express";
 import Cors from "cors"
 import configuration from "config"
+import { connectDb } from "./utils/MongodbConector.js";
 
 //server initializing
 const fileServer = Express()
+
+//connect to database
+connectDb()
 
 //middlewares
 fileServer.use(Cors()) //cross origin communication
