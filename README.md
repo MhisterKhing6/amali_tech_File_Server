@@ -17,6 +17,7 @@
     <li><b>models:</b> database schemas</li>
     <li><b>utils:</b>utility funtions</li>
     <li><b>test:</b>testing modules and functions for the project</li>
+    <li><b>routes:</b>entry enpoints </li>
     <li><b>server.js</b> Entry for application</li>
 </ul>
 </li>
