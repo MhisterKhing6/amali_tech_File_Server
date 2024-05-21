@@ -4,6 +4,7 @@ controls user endpoins operations
 /*handles user controller functions */
 import { UserModel } from "../models/user.js"
 import sha1 from "sha1"
+import { generateToken } from "../utils/WebTokenController.js"
 class UserController  {
 
     static register = async (req, res) => {
@@ -11,7 +12,7 @@ class UserController  {
          * register: register user to the system
          * @param {object} req: request object
          * @param {object} res: response
-         * @retuns {object} : returns json response
+         * @returns {object} : json response of user detials
          */
         let userDetails = req.body
         //check if all required user details are given
@@ -35,6 +36,37 @@ class UserController  {
             console.log(err)
             return res.status(501).json({"message": "internal error"})
         }
+    }
+
+    static login = async (req, res) => {
+        /**
+         * register: register user to the system
+         * @param {object} req: request object
+         * @param {object} res: response
+         * @return {object} : json response of user token
+         */
+        let loginDetails  = req.body
+        //check if email and password is given
+        try {
+            if(!(loginDetails.email && loginDetails.password))
+            return res.status(400).json({"message": "fields missing"})
+        //check if user has registered
+        let user = await UserModel.findOne({email:loginDetails.email})
+        if(!user)
+            return res.status(401).json({"message": "user hasnt registered"})
+        //check if user hash passwrod match login hash passsword
+        if(user.passwordHash !== sha1(loginDetails.password))
+            return res.status(401).json({"message": "wrong passwrod"})
+        //generate token for the user
+        let token = generateToken({...user})
+        //send token to user
+        return res.status(200).json({token, "message": "login successful"})
+
+        }catch(err) {
+            console.log(err)
+            return res.status(501).json({"message": "internal error"})
+        }
+        
     }
 }
 

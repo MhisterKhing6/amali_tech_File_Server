@@ -9,8 +9,13 @@ register user
 method: post
 domain: public
 */
-nonAuthRoute.post("/register/customer", async (req, res) => {
-    return UserController.register(req, res)
-})
+nonAuthRoute.post("/register/customer", UserController.register)
 
+
+/**
+ * login user
+ * method: post
+ * domain public
+ */
+nonAuthRoute.post("/login/user", UserController.login)
 export {nonAuthRoute}
