@@ -5,5 +5,8 @@
     },
     "db": {
         "connectionString": "mongodb+srv://autoccoder:mtZ90Ud5hX04X4H4@cluster0.lguajgx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    },
+    "token": {
+        "secreteKey": "9ei?I@sekrdosi#$#2kosik!skK"
     }
 }
