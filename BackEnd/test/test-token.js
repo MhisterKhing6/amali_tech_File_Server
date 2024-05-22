@@ -12,7 +12,5 @@ describe("user token generation and decoding", () => {
     let userDetialsAfterDecoding = decodeToken(token)
     assert.equal(userDetials.name, userDetialsAfterDecoding.name)  
     assert.equal(userDetials.email, userDetialsAfterDecoding.email)
-
-
     })
 })

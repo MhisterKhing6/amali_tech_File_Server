@@ -1,4 +1,3 @@
-import supertest from "supertest";
 import {assert} from "chai";
 import { UserModel } from "../models/user.js";
 import request from "supertest"
