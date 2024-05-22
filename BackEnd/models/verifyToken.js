@@ -1,11 +1,13 @@
 import {model, Schema } from "mongoose";
 const VerfiyTokenSchema = new Schema({
-    user_id :{type:String, required:true},
-    secrete_number: {type:String, required:true},
-    expiry_date: {type:Date, required:true},
-    type: {type:String, required:true}
+    userId :{type:String, required:true},
+    secreteNumber: {type:String, required:true},
+    createdDate: {type:Date, default:Date.now},
+    type: {type:String, required:true, enum: ['password', "email"]}
 })
 
 //create a model
 let VerifTokenModel = model("VerifyToken", VerfiyTokenSchema)
+
+export {VerifTokenModel}
 

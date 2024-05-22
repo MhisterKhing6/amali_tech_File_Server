@@ -5,6 +5,8 @@ controls user endpoins operations
 import { UserModel } from "../models/user.js"
 import sha1 from "sha1"
 import { generateToken } from "../utils/WebTokenController.js"
+import { generateSecretNumber } from "../utils/VerificationFunctions.js"
+
 class UserController  {
 
     static register = async (req, res) => {
@@ -30,8 +32,16 @@ class UserController  {
         try {
             let passwordHash = sha1(userDetails.password)
             let userDb = UserModel({...userDetails, passwordHash})
+            //send verificaion message
+            let secreteNumber = generateSecretNumber()
+            //save information in the Verify token database
             await userDb.save()
-            res.status(201).json({"id": userDb._id})
+            //verify object
+            let verifyObject = {"userId":userDb._id.toString(), secreteNumber, type:"email"}
+            let verifyToken = new VerifTokenModel(verifyObject)
+            //asynchroneously send verificatio message
+            sendEmailVerification(userDb, secreteNumber)
+            res.status(201).json({"id": userDb._id, tokenId: verifyToken._id.toString()})
         } catch(err) {
             console.log(err)
             return res.status(501).json({"message": "internal error"})
@@ -54,6 +64,11 @@ class UserController  {
         let user = await UserModel.findOne({email:loginDetails.email})
         if(!user)
             return res.status(401).json({"message": "user hasnt registered"})
+        if(!user.emailVerified) {
+            //delete user entry
+            await UserModel.deleteOne({_id:user._id})
+            return res.status(401).json({"message": "user hasnt registered"})
+        }
         //check if user hash passwrod match login hash passsword
         if(user.passwordHash !== sha1(loginDetails.password))
             return res.status(401).json({"message": "wrong passwrod"})
@@ -69,5 +84,7 @@ class UserController  {
         
     }
 }
+import { VerifTokenModel } from "../models/verifyToken.js"
+import { sendEmailVerification } from "../utils/EmailHandler.js"
 
 export {UserController}
