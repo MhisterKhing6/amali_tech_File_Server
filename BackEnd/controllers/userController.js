@@ -159,6 +159,79 @@ class UserController  {
             res.status(501).json({"message": "internal server error"})
         }
     }
+    static verify = async (req, res) => {
+       /**
+         * resetPassword : reset user passwords
+         * @param {object} req: request object
+         * @param {object} res: response
+         */ 
+
+       let verficationDetails = req.body    
+        //check if all details fiels ar given
+        if(!(verficationDetails.verificationId && verficationDetails.secreteNumber))
+             return res.status(400).json({"message": "fields missing"})
+        try {
+            //check for verification entry
+            let verificationEntry = await VerifTokenModel.findOne({_id: new ObjectId(verficationDetails.verificationId)})
+            if (!verificationEntry)
+                return res.status(401).json({"message": "no verification entry found"})
+            //check if token has expired
+            if(TwoHourPass(verificationEntry.createdDate)) {
+                //delete token entry
+                await VerifTokenModel.deleteOne({_id: verificationEntry._id})
+                return res.status(401).json({"message": "token expired"})
+            }
+            //check if user secrete number matches the one sent via email
+            if(verficationDetails.secreteNumber !== verificationEntry.secreteNumber)
+                return res.status(401).json({"message": "numbers dont match"})
+            //update verification entry
+            verificationEntry.verified = true
+            await verificationEntry.save()
+           
+            return res.status(200).json({verificationId: verificationEntry._id.toString(), message:"success"})
+            
+        }catch(err) {
+            console.log(err)
+            res.status(501).json({"message": "internal server error"})
+        }
+    }
+    static updatePassword = async (req, res) => {
+        /**
+         * updatePassword : update user passwords
+         * @param {object} req: request object
+         * @param {object} res: response
+         */ 
+        //update history
+        let updateDetials = req.body
+        //check if all user detials are given
+        if(!(updateDetials.password && updateDetials.verificationId))
+            return res.status(400).json({"message": "fields missing"})
+        //check for verifcation database entry
+        try {
+            //check for verification entry
+            let verificationEntry = await VerifTokenModel.findOne({_id:new ObjectId(updateDetials.verificationId)})
+            if(!verificationEntry)
+                return res.status(401).json({"message": "no verification entry found"})
+            //check if user has verify and the type of verification is reset password
+            if(!(verificationEntry.verified && verificationEntry.type === "password"))
+                return res.status(401).json({"message": "user not verfied"})
+            //get and verify user
+            let user = await UserModel.findOne({_id: new ObjectId(verificationEntry.userId)})
+            if(!user)
+                return await  res.status(401).json({"message": "user not registered"})
+            //update user's password
+            user.passwordHash = sha1(updateDetials.password)
+            await user.save()
+            //delete token entry
+            await VerifTokenModel.deleteOne({_id:verificationEntry._id})
+            //return response to user
+            return res.status(200).json({id: user._id.toString() , "message": "password changed"})
+        }catch(err) {
+            console.log(err)
+            res.status(501).json({"message": "internal server error"})
+        }
+
+    }
 }
 
 

@@ -49,3 +49,18 @@ nonAuthRoute.get("/user/verification-number/email/:email", async (req, res) => {
 nonAuthRoute.get("/user/verification-number/reset-password/:email", async (req, res) => {
     return await UserController.sendVerificationNumber(req, res, "password")
 })
+
+/**
+ * verifies user by checking if number sent via email matches the one received by user
+ * method: post
+ * domain: public
+ */
+nonAuthRoute.post("/user/check/verification", UserController.verify)
+
+
+/**
+ * updates user passwords
+ * method: post
+ * domain:public
+ */
+nonAuthRoute.post("/user/update-password", UserController.updatePassword)
