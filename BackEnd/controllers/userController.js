@@ -243,6 +243,7 @@ class UserController  {
          */
 
         let verificationId = req.params.vId
+        console.log(verificationId)
         if(!verificationId)
             return res.status(400).json("message: fields missing")
         //retrive verification entry
