@@ -41,7 +41,7 @@ class UserController  {
             await userDb.save()
             //verify object
             let verifyObject = {"userId":userDb._id.toString(), secreteNumber, type:"email"}
-            let verifyToken = new VerifTokenModel(verifyObject)
+            let verifyToken = await new VerifTokenModel(verifyObject).save()
             //asynchroneously send verificatio message
             sendEmailVerification(userDb, secreteNumber)
             res.status(201).json({"id": userDb._id, verificationId: verifyToken._id.toString()})
@@ -93,7 +93,7 @@ class UserController  {
          * @param {object} req: request object
          * @param {object} res: response
          */
-        let verficationDetails = req.body    
+        let verficationDetails = req.body  
         //check if all details fiels ar given
         if(!(verficationDetails.verificationId && verficationDetails.secreteNumber))
              return res.status(400).json({"message": "fields missing"})
