@@ -142,6 +142,8 @@ class UserController  {
             let customer = await UserModel.findOne({email:userEmail})
             if(!customer)
                 return res.status(401).json({"message": "user hasnt registered"})
+            //delete old verification entry
+            await VerifTokenModel.deleteOne({"userId": customer._id.toString()})
             //generate verifcation entry and save
             let verficaitonDetails = {userId:customer._id.toString(), type, secreteNumber:generateSecretNumber()}
             let verificatonEntry = await new VerifTokenModel(verficaitonDetails).save()
@@ -231,6 +233,36 @@ class UserController  {
             res.status(501).json({"message": "internal server error"})
         }
 
+    }
+
+    static resendVerifcationCode = async (req, res) => {
+        /**
+         * resendVerificatin : resends verification to user email
+         * * @param {object} req: request object
+         *   @param {object} res: response
+         */
+
+        let verificationId = req.params.vId
+        if(!verificationId)
+            return res.status(400).json("message: fields missing")
+        //retrive verification entry
+        let verifcationEntry = await VerifTokenModel.findOne({_id: new ObjectId(verificationId)})
+        if(!verifcationEntry)
+            return res.status(401).json({"message": "no entry found"})
+        //generat new verfication code
+        verifcationEntry.secreteNumber = generateSecretNumber()
+        //reset date
+        verifcationEntry.createdDate = new Date()
+        await verifcationEntry.save()
+        //retrieve user info
+        let user = await UserModel.findOne({_id: new ObjectId(verifcationEntry.userId)})
+        //check type to send appropriate verification  template
+        if(verifcationEntry.type === "password")
+            sendResetPassword({email:user.email, name:user.name}, verifcationEntry.secreteNumber)
+        else 
+            sendEmailVerification({email:user.email, name:user.name}, verifcationEntry.secreteNumber)
+        //send response to user
+        res.status(200).json({"message": "new message sent"})
     }
 }
 

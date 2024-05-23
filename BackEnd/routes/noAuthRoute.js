@@ -41,6 +41,13 @@ nonAuthRoute.get("/user/verification-number/email/:email", async (req, res) => {
 
 
 /**
+ * re send verification code to user email
+ * method:get
+ * domain public
+ */
+nonAuthRoute.get("/user/resend/verification-code/:vId", UserController.resendVerifcationCode)
+
+/**
  * sends user verification number for password verication
  * method:get
  * domain public
