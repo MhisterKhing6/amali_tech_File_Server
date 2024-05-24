@@ -1,4 +1,4 @@
-import {Model, Schema } from "mongoose";
+import {model, Schema } from "mongoose";
 const FileSchema = new Schema({
     title:     {type: String, required:true, unique:true},
     description:   {type: String, required:true},
@@ -11,5 +11,5 @@ const FileSchema = new Schema({
 })
 
 //create a model
-let FileModel = Model("File", FileSchema)
+let FileModel = model("File", FileSchema)
 export {FileModel}
