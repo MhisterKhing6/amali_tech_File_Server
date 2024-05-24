@@ -16,11 +16,9 @@ describe("creating file path", () => {
     })
     it("should return object with status equals 1 and filePath", async () => {
         let response = await saveUpolaodFileDisk(adminId, fileName, base64Content)
-        assert.isObject(response)
-        assert.equal(response.status, 1)
-        assert.isDefined(response.filePath)
-        assert.isTrue(existsSync(response.filePath))
-        let content = await readFileAsync(response.filePath)
+        assert.isString(response )
+        assert.isTrue(existsSync(response))
+        let content = await readFileAsync(response)
         assert.equal(content.toString(), fileContent)
 
 
