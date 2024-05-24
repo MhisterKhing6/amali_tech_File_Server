@@ -19,6 +19,7 @@ const createFilePath = async (adminId,fileName) => {
     //create folder on a disk
     try {
         let response = await mkdirAsync(parentDirectory, {recursive:true})
+        //join created folder with fileName to create folder parent path
         let filePath = path.join(parentDirectory, fileName)
         return filePath
     } catch(err) {
@@ -36,6 +37,17 @@ const decodeBase64 = async (bas64String)  => {
     return buffer
 }
 
+const getFileNameFromTitle = (title, fileName) => {
+    let extension = fileName.split(".").pop()
+    //get extension from user filename given
+    let extName = path.extname(fileName)
+    if(!extName)
+        return null
+    //replace space in title with dash
+    let dashedtitle = title.replace(/\s+/g , "-");
+    return dashedtitle + extName
+}
+
 
 const saveUpolaodFileDisk = async (adminId,fileName, base64Data) => {
     /**
@@ -46,23 +58,20 @@ const saveUpolaodFileDisk = async (adminId,fileName, base64Data) => {
      * @returns {{status: 'int" , filePath:"str"}} status 0 if file exist, 1 if success with file path and -1 if error occured
      */
     //create file path
+    try {
     let filePath  = await createFilePath(adminId, fileName)
     if(!filePath)
         return null
     //check if file with the same file name exist
-    if(existsSync(filePath))
-        return {status:0}
-    //decode base64 string
     let buffer = await decodeBase64(base64Data)
     //write file to disk
-    try {
-        await writeFileAsyc(filePath, buffer)
-        return {status:1, filePath}
+    await writeFileAsyc(filePath, buffer)
+    return filePath
         
     }catch(err) {
         console.log(err)
-        return {status:-1}
+        return null
     }
 }
 
-export{createFilePath, saveUpolaodFileDisk}
+export{createFilePath, saveUpolaodFileDisk, getFileNameFromTitle}
