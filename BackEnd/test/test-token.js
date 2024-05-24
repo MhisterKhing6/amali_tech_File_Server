@@ -18,8 +18,7 @@ describe("user token generation and decoding", () => {
         let token = "9*##@@#@@@#@3232"
         let mockedRequest = {header: (objc) => `Bearer ${token}`}
         let resultToken = getAuthorizationtoken(mockedRequest)
-        assert.equal(token, resultToken.token)
-        assert.isObject(resultToken)
-        assert.isTrue(resultToken.auth)
+        assert.equal(token, resultToken)
+        assert.isString(resultToken)
     })
 })

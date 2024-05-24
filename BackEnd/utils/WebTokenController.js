@@ -39,13 +39,13 @@ const getAuthorizationtoken = (request) => {
          */
         let token = request.header("Authorization").trim()
         if(!token) {
-            return {"auth": false}
+            return null
         }
         if (token.startsWith("Bearer ")) {
             token = token.slice("7")
             token = token.trim()
         }
-        return {"auth": true, token}
+        return token
     }
 
 
