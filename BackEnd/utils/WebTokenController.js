@@ -37,7 +37,11 @@ const getAuthorizationtoken = (request) => {
          * @param {object} request: http request header
          * @returns {string} : token 
          */
-        let token = request.header("Authorization").trim()
+        let token = null
+        if(request.header("Authorization"))
+            token = request.header("Authorization").trim()
+        else 
+            token = request.header("authorization").trim()
         if(!token) {
             return null
         }
