@@ -1,12 +1,12 @@
 
 import emailPic from "../assets/email.png"
-import { Spinner } from "react-bootstrap"
+import { Button, Spinner } from "react-bootstrap"
 import { useState } from "react"
-import { getFromBackend } from "../utils/backendCalls"
+import { getFromBackend, postToBackend } from "../utils/backendCalls"
 import {useNavigate } from "react-router-dom"
 import "./verfyemail.css";
 
-const VerifyEmail = ({verificationId, email, urlMe}) => {
+const VerifyEmail = ({verificationId,vUrl, email, redirectUrl}) => {
     const redirect = useNavigate()
     const [disB, setdisable ] = useState(false)
     const [startSpiner, setSpiner] = useState(false)
@@ -31,13 +31,13 @@ const VerifyEmail = ({verificationId, email, urlMe}) => {
                         //disable button
                         setSubmitted(true)
                         //check if the verification code has been given
-                       let url = `/api/auth/verify/email/${verificationId}/${verficationCode}`
-                        let response = await getFromBackend(url)
+                        let response = await postToBackend(vUrl, {verificationId, verificationCode:verficationCode})
                         if(response.status !== 200) {
                             //dos stuff here
-                            alert(response.data.reason)
+                            console.log(response.data)
+                            alert(response.data.message)
                         } else {
-                            redirect("/user/congratulations", {state:{url: urlMe}})
+                            redirect(redirectUrl ? redirectUrl : "/auth/customer/account/congratulations", {state:{url: "/auth/customer/login", verificationId}})
                         }
                         //enable button
                         setSubmitted(false)
@@ -56,9 +56,10 @@ const VerifyEmail = ({verificationId, email, urlMe}) => {
                 <a disabled={disB} onClick= {async (e) => {
                     e.preventDefault()
                     setdisable(true)
-                    let response = await getFromBackend("/api/auth/resend/email/" + verificationId)
+                    let resendUrl =  `/auth/user/resend/verification-code/${verificationId}`
+                    let response = await getFromBackend(resendUrl)
                     if (response.status !== 200) {
-                        alert(response.data.reason)
+                        alert(response.data.message)
                         setdisable(false)
                     }
                     else {

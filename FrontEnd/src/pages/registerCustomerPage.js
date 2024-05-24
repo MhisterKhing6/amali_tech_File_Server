@@ -1,5 +1,4 @@
-import { RegisterCustomerForm } from "../components/registerLecturerForm";
-
+import { RegisterCustomerForm } from "../components/registerCutomer"
 const RegisterCustomerPage = () => {
     return(
         <RegisterCustomerForm />

@@ -1,7 +1,7 @@
 import "./login.css"
 import {useState} from "react"
 import Toast  from "./toast.js"
-import { Container, Spinner, Row, Col } from "react-bootstrap"
+import { Spinner } from "react-bootstrap"
 import { postToBackend } from "../utils/backendCalls.js"
 import { useNavigate } from "react-router-dom"
 import logo from "../assets/logo-color1.png"
@@ -19,7 +19,6 @@ const RegisterCustomerForm = () => {
       setRegistration({...registration})
    }
    const hidden = () => {togleShow(false)}
-   const text = "Please Register Customer"
   return (
     <div className="container mx-auto d-flex h-100 justify-content-center my-3">
         <form className="registration p-5" onSubmit={async (e) =>{
@@ -36,16 +35,16 @@ const RegisterCustomerForm = () => {
 
           } else {
             //post user data
-            let response = await postToBackend("/auth/register/customer", registration)
+            let response = await postToBackend("/auth/register/customer", {type:"customer", ...registration})
             if (response.status !== 201) {
-              setMessage(response.data.reason)
+              setMessage(response.data.message)
             } else {
               setMessage("Success")
               togleShow(true)
               setSubmitted(false)
               setSpiner(false)
               //Navigate to login
-              redirect("/auth/verify/email", {state: {email:registration.email, verificationId: response.data.verificationId, url:"/auth/login/lecturer"}})
+              redirect("/auth/verify/customer", {state: {email:registration.email, verificationId: response.data.verificationId, vUrl:"/auth/verify/customer", url:"/auth/login/lecturer"}})
             //redirect
             }
           }
@@ -104,7 +103,7 @@ const RegisterCustomerForm = () => {
           {(submitted && startSpiner) && <Spinner className="spiner-child" /> }
           </div>
 
-          <a href="/auth/login/lecturer" className="my-2 d-block">Already have an account?</a>
+          <a href="/auth/login/customer" className="my-2 d-block">Already have an account?</a>
           <p className="mt-5 mb-3 text-muted">&copy; Amalitech File Server 2023–2024</p>
         </form>
         </div>
