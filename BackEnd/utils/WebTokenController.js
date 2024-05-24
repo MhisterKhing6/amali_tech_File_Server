@@ -31,5 +31,22 @@ const decodeToken = (userToken) => {
 
     }
 
+const getAuthorizationtoken = (request) => {
+        /**
+         * getAuthorizationtoken: get authorization token from request header
+         * @param {object} request: http request header
+         * @returns {string} : token 
+         */
+        let token = request.header("Authorization").trim()
+        if(!token) {
+            return {"auth": false}
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.slice("7")
+            token = token.trim()
+        }
+        return {"auth": true, token}
+    }
 
-export {generateToken, decodeToken}
+
+export {generateToken, decodeToken, getAuthorizationtoken}
