@@ -4,6 +4,7 @@ const FileSchema = new Schema({
     downloads: {type:String, required:true},
     emailSent: {type:String, required: true},
     filePath:  {type:String, required:true},
+    fileName:  {type:String, required:true},
     extension: {type:String, required:true},
     updatedAt: {type:Date, default:Date.now},
     uploaded_by:{type:String, required:true}//fk to users

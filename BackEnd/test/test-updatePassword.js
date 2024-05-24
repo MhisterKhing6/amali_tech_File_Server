@@ -11,7 +11,7 @@ import { ObjectId } from "mongodb";
 describe("update user password",  () => {
 let unverifiedCustomer = {"name": "text2", "password": "text3333", "email": "unveritext32@gmail.com", "type": "customer"}
 let passwordHash = sha1(unverifiedCustomer.password)
-let secreteNumber = generateSecretNumber()
+let verificationCode = generateSecretNumber()
 let  verificationEntry = null
 let url =  '/auth//user/update-password'
 let newPassowrd = 'new password'
@@ -19,7 +19,7 @@ let user = null
 before(async () => {
     await connectDb()
     user = await new UserModel({...unverifiedCustomer, passwordHash}).save()
-    verificationEntry = await new VerifTokenModel({verified:true, secreteNumber, userId:user._id.toString(), type:"password"}).save()
+    verificationEntry = await new VerifTokenModel({verified:true, verificationCode, userId:user._id.toString(), type:"password"}).save()
 })
 
 after(async () => {

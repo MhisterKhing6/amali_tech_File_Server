@@ -36,14 +36,14 @@ class UserController  {
             let passwordHash = sha1(userDetails.password)
             let userDb = UserModel({...userDetails, passwordHash})
             //send verificaion message
-            let secreteNumber = generateSecretNumber()
+            let verificationCode = generateSecretNumber()
             //save information in the Verify token database
             await userDb.save()
             //verify object
-            let verifyObject = {"userId":userDb._id.toString(), secreteNumber, type:"email"}
+            let verifyObject = {"userId":userDb._id.toString(), verificationCode, type:"email"}
             let verifyToken = await new VerifTokenModel(verifyObject).save()
             //asynchroneously send verificatio message
-            sendEmailVerification(userDb, secreteNumber)
+            sendEmailVerification(userDb, verificationCode)
             res.status(201).json({"id": userDb._id, verificationId: verifyToken._id.toString()})
         } catch(err) {
             console.log(err)
@@ -95,7 +95,7 @@ class UserController  {
          */
         let verficationDetails = req.body  
         //check if all details fiels ar given
-        if(!(verficationDetails.verificationId && verficationDetails.secreteNumber))
+        if(!(verficationDetails.verificationId && verficationDetails.verificationCode))
              return res.status(400).json({"message": "fields missing"})
         try {
             //check for verification entry
@@ -109,7 +109,7 @@ class UserController  {
                 return res.status(401).json({"message": "token expired"})
             }
             //check if user secrete number matches the one sent via email
-            if(verficationDetails.secreteNumber !== verificationEntry.secreteNumber)
+            if(verficationDetails.verificationCode !== verificationEntry.verificationCode)
                 return res.status(400).json({"message": "numbers dont match"})
             //get and verify user
             let user = await UserModel.findOne({_id: new ObjectId(verificationEntry.userId)})
@@ -145,13 +145,13 @@ class UserController  {
             //delete old verification entry
             await VerifTokenModel.deleteOne({"userId": customer._id.toString()})
             //generate verifcation entry and save
-            let verficaitonDetails = {userId:customer._id.toString(), type, secreteNumber:generateSecretNumber()}
+            let verficaitonDetails = {userId:customer._id.toString(), type, verificationCode:generateSecretNumber()}
             let verificatonEntry = await new VerifTokenModel(verficaitonDetails).save()
             //check the type to determine the type of message to send
             if(type === "password")
-                sendResetPassword({email:customer.email, name:customer.name}, verficaitonDetails.secreteNumber)
+                sendResetPassword({email:customer.email, name:customer.name}, verficaitonDetails.verificationCode)
             else {
-                sendEmailVerification({email:customer.email, name:customer.name}, verficaitonDetails.secreteNumber)
+                sendEmailVerification({email:customer.email, name:customer.name}, verficaitonDetails.verificationCode)
             }
             //send verification id to user_id to user
             res.status(200).json({"verificationId":verificatonEntry._id.toString(), "userId":customer._id.toString()})
@@ -170,7 +170,7 @@ class UserController  {
 
        let verficationDetails = req.body    
         //check if all details fiels ar given
-        if(!(verficationDetails.verificationId && verficationDetails.secreteNumber))
+        if(!(verficationDetails.verificationId && verficationDetails.verificationCode))
              return res.status(400).json({"message": "fields missing"})
         try {
             //check for verification entry
@@ -184,7 +184,7 @@ class UserController  {
                 return res.status(401).json({"message": "token expired"})
             }
             //check if user secrete number matches the one sent via email
-            if(verficationDetails.secreteNumber !== verificationEntry.secreteNumber)
+            if(verficationDetails.verificationCode !== verificationEntry.verificationCode)
                 return res.status(401).json({"message": "numbers dont match"})
             //update verification entry
             verificationEntry.verified = true
@@ -250,7 +250,7 @@ class UserController  {
         if(!verifcationEntry)
             return res.status(401).json({"message": "no entry found"})
         //generat new verfication code
-        verifcationEntry.secreteNumber = generateSecretNumber()
+        verifcationEntry.verificationCode = generateSecretNumber()
         //reset date
         verifcationEntry.createdDate = new Date()
         await verifcationEntry.save()
@@ -258,9 +258,9 @@ class UserController  {
         let user = await UserModel.findOne({_id: new ObjectId(verifcationEntry.userId)})
         //check type to send appropriate verification  template
         if(verifcationEntry.type === "password")
-            sendResetPassword({email:user.email, name:user.name}, verifcationEntry.secreteNumber)
+            sendResetPassword({email:user.email, name:user.name}, verifcationEntry.verificationCode)
         else 
-            sendEmailVerification({email:user.email, name:user.name}, verifcationEntry.secreteNumber)
+            sendEmailVerification({email:user.email, name:user.name}, verifcationEntry.verificationCode)
         //send response to user
         res.status(200).json({"message": "new message sent"})
     }

@@ -11,13 +11,13 @@ import { ObjectId } from "mongodb";
 describe("Verify user through email",  () => {
 let unverifiedCustomer = {"name": "text2", "password": "text3333", "email": "unveritext32@gmail.com", "type": "customer"}
 let passwordHash = sha1(unverifiedCustomer.password)
-let secreteNumber = generateSecretNumber()
+let verificationCode = generateSecretNumber()
 let verificationEntry = null
 before(async () => {
     await connectDb()
     let user = await new UserModel({...unverifiedCustomer, passwordHash}).save()
     //verification entry
-    verificationEntry = await new VerifTokenModel({secreteNumber, userId:user._id.toString(), type:"email"}).save()
+    verificationEntry = await new VerifTokenModel({verificationCode, userId:user._id.toString(), type:"email"}).save()
 })
 
 after(async () => {
@@ -26,14 +26,14 @@ after(async () => {
 })
 
 it("should return numbers dont match with 400 status code", async () => {
-    let response = await request(fileServer).post("/auth/verify/customer").type('json').send({verificationId:verificationEntry._id.toString(), secreteNumber: "wrong number"})
+    let response = await request(fileServer).post("/auth/verify/customer").type('json').send({verificationId:verificationEntry._id.toString(), verificationCode: "wrong number"})
     assert.equal(response.status, 400)
     assert.isDefined(response.body.message)
     assert.equal(response.body.message, "numbers dont match")
 })
 
 it("should return id, message and 200 status code", async () => {
-    let verificationPayload = {"verificationId":verificationEntry._id.toString(), secreteNumber}
+    let verificationPayload = {"verificationId":verificationEntry._id.toString(), verificationCode}
     let response = await request(fileServer).post("/auth/verify/customer").type('json').send(verificationPayload)
     let verifiedUser= await UserModel.findOne({email: unverifiedCustomer.email})
     assert.equal(response.status, 200)
@@ -53,7 +53,7 @@ it("should return filds missing with 400 status code", async () => {
 
 it("should return no verification entry found, with 401 status code ", async () => {
     let wrongId = new  ObjectId().toString()
-    let wrongVerificationDetails  = {verificationId: wrongId, secreteNumber}
+    let wrongVerificationDetails  = {verificationId: wrongId, verificationCode}
     let response = await request(fileServer).post("/auth/verify/customer").type('json').send(wrongVerificationDetails)
     assert.equal(response.status, 401)
     assert.isDefined(response.body.message)
