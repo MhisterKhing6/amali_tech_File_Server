@@ -8,6 +8,8 @@ import { LoginCustomerPage } from './pages/loginCustomerPage';
 import { ForgetPasswordRequestPage } from './pages/forgetPasswordRequestPage';
 import { NewPassworPage } from './pages/NewPasswordPage';
 import { NewPwdCongratulationsPage } from './pages/newPwdCongratulations';
+import { LoginAdminForm } from './components/adminLoginForm';
+import { LoginAdminPage } from './pages/adminLoginPage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Route path='/user/reset-password/verificationCode' element = {<div><VerifyEmailPage/></div>} />
       <Route path='/auth/user/update-password' element={<NewPassworPage />} />
       <Route path='/user/congratulations/new-password' element={<NewPwdCongratulationsPage />} />
+      <Route path='/admin/login' element={<LoginAdminPage />} />
+      <Route path='/admin/dashboard' element={<p>Kofi ama</p>} />
     </Routes>
   );
 }

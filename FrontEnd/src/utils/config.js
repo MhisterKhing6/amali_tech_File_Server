@@ -5,6 +5,7 @@ const backend = {
 
 const token = {
     customerTokenKey: "s98873sRsdss",
+    lecturerToenKey: "skslekrlekrjelj"
 
     }
 export {backend, token}
