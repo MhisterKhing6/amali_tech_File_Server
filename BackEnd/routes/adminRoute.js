@@ -37,4 +37,11 @@ next()
  */
 adminRoute.post("/upload-file", AdminController.uploadFile)
 
+/**
+ * give files uploaded stats
+ * method: get
+ * domain: restricted to admin users
+ */
+adminRoute.get("/view-stats", AdminController.viewFileStats)
+
 export {adminRoute}

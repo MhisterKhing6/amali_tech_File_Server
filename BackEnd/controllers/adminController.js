@@ -42,6 +42,19 @@ class AdminController {
         }
         return res.status(200).send("not implemented")
     }
+
+    static viewFileStats = async (req, res) => {
+        /**
+         * uploadFile: upload file handler for admin users
+         * @param {object} req: http request object
+         * @param {object} res: http response object
+         * @return {object} json response
+         */
+        //get all files in the file database
+        let files = await FileModel.find().select("title emailSent downloads")
+        return res.status(200).json(files)
+
+    }
 }
 
 export {AdminController}
