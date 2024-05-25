@@ -11,6 +11,7 @@ import { NewPwdCongratulationsPage } from './pages/newPwdCongratulations';
 import { LoginAdminPage } from './pages/adminLoginPage';
 import { AdminDashboardPage } from './pages/adminDasboardPage';
 import { UploadFilePage } from './pages/uploadFilePage';
+import { FileStatsPage } from './pages/fileStatsPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path='/admin/login' element={<LoginAdminPage />} />
       <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
       <Route path='/admin/upload-file' element={<UploadFilePage />} />
+      <Route path='/admin/view-file' element={<FileStatsPage />} />
     </Routes>
   );
 }
