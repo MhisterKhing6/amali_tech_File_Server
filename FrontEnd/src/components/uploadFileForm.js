@@ -16,7 +16,7 @@ const UploadFileForm = () => {
 
     return (
         <>
-        {submission && <SpinerGrow />}
+        {submission && <SpinerGrow text="uploading File" />}
 
         {!submission && <Container className="w-100 mx-auto p-2 p-md-3 p-lg-5" >
             <Card className="p-2">
@@ -56,15 +56,19 @@ const UploadFileForm = () => {
                     <Form.Group className="my-2">
                         <Form.Label><b>Upload Script </b></Form.Label>
                         <Form.Control required type="file" onChange={async (val) => {
-                            let file = val.target.files[0]
-                            //check if file contain extension
-                                setFileName(file.name)
-                                try {
-                                const base64 = await convertBase64(file)
-                                setFileData(base64.split(",").pop())
-                                }catch(err) {
-                                    setFileData("")
-                                }
+                            if(val.target.files.length === 0) {
+                                setFileData("")
+                            }else {
+                                let file = val.target.files[0]
+                                //check if file contain extension
+                                    setFileName(file.name)
+                                    try {
+                                    const base64 = await convertBase64(file)
+                                    setFileData(base64.split(",").pop())
+                                    }catch(err) {
+                                        setFileData("")
+                                    }
+                            }
                         }} />
                         <Form.Control.Feedback type="valid">Please upload a file</Form.Control.Feedback>
                     </Form.Group>
