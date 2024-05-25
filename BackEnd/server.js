@@ -13,7 +13,7 @@ connectDb()
 
 //middlewares
 fileServer.use(Cors()) //cross origin communication
-fileServer.use(Express.json()) // json body parsing
+fileServer.use(Express.json({limit: configuration.files.maxSize})) // json body parsing
 fileServer.use(Express.urlencoded({ extended: false }))
 
 //routes

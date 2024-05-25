@@ -27,7 +27,7 @@ before(async () => {
     //register user with admin previlages
     let user = await new UserModel({...verifiedCustomer, passwordHash}).save()
     //get token for user login
-    authToken = generateToken(user._doc)
+    authToken = generateToken({...user})
 })
 
 after(async () => {
@@ -56,24 +56,6 @@ it("should return filds missing with 400 status code", async () => {
     assert.equal(response.status, 400)
     assert.isDefined(response.body.message)
     assert.equal(response.body.message, "fields missing")
-})
-
-
-
-xit("should return user hasnt registered with status code 401", async () => {
-    let unregisterded = {"password": "text3333", "email": "unknown@gmail.com"}
-    let response = await request(fileServer).post("/auth/login/user").type('json').send(unregisterded)
-    assert.equal(response.status, 401)
-    assert.isDefined(response.body.message)
-    assert.equal(response.body.message, "user hasnt registered")
-})
-
-xit("should return wrong user password code 401", async () => {
-    let wrongPassword = {"password": "wrongPassword", "email": verifiedCustomer.email}
-    let response = await request(fileServer).post("/auth/login/user").type('json').send(wrongPassword)
-    assert.equal(response.status, 401)
-    assert.isDefined(response.body.message)
-    assert.equal(response.body.message, "wrong passwrod")
 })
 
 })
