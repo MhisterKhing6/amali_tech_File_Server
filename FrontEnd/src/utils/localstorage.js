@@ -12,8 +12,8 @@ function getToken(key) {
 	return Cookies.get(key)
 }
 
-function Logout(key) {
+function logout(key) {
     Cookies.remove(key)
 }
 
-export {Logout, saveToken, getToken}
+export {logout, saveToken, getToken}

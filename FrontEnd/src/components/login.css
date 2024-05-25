@@ -8,6 +8,10 @@
     top: 5px;
     left: 20px;
 }
+.dashboard-link {
+    color: black !important;
+    text-decoration: none;
+}
 .child {
     position: absolute !important;
     top: 0  !important;

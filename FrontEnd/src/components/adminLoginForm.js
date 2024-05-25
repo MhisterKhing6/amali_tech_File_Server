@@ -36,7 +36,7 @@ const LoginAdminForm = () => {
           } else {
             setMessage("success")
             //save token
-            saveToken(token.lecturerToenKey, result.data.token)
+            saveToken(token.adminTokenKey, result.data.token)
             //redirect to Lecturer dashboard
             redirect("/admin/dashboard")
           }

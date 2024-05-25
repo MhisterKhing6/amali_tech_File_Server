@@ -8,8 +8,9 @@ import { LoginCustomerPage } from './pages/loginCustomerPage';
 import { ForgetPasswordRequestPage } from './pages/forgetPasswordRequestPage';
 import { NewPassworPage } from './pages/NewPasswordPage';
 import { NewPwdCongratulationsPage } from './pages/newPwdCongratulations';
-import { LoginAdminForm } from './components/adminLoginForm';
 import { LoginAdminPage } from './pages/adminLoginPage';
+import { AdminDashboardPage } from './pages/adminDasboardPage';
+import { UploadFilePage } from './pages/uploadFilePage';
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
       <Route path='/auth/user/update-password' element={<NewPassworPage />} />
       <Route path='/user/congratulations/new-password' element={<NewPwdCongratulationsPage />} />
       <Route path='/admin/login' element={<LoginAdminPage />} />
-      <Route path='/admin/dashboard' element={<p>Kofi ama</p>} />
+      <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
+      <Route path='/admin/upload-file' element={<UploadFilePage />} />
     </Routes>
   );
 }

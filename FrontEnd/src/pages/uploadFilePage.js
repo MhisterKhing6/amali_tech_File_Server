@@ -4,25 +4,25 @@ import { token } from "../utils/config.js"
 import { Navigate} from "react-router-dom"
 import { UserProfile } from "../components/userProfile.js"
 import { AdminNavBar } from "../components/navBaradmin.js"
-import { AdminDashboard } from "../components/dashboard.js"
-const AdminDashboardPage = () => {
+import { UploadFileForm } from "../components/uploadFileForm.js"
+const UploadFilePage = () => {
     const authenticated = getToken(token.adminTokenKey)
     
     if(!authenticated) {
         return <Navigate to="/admin/login" />
-    } else { 
+    } else {
       return  (
       <>
       <div style={{minHeight: "25vh"}} className="my-0">
       <AdminNavBar />
-        <UserProfile  type="admin"/>
+        <UserProfile />
       </div>
-      <div style={{minHeight: "65vh"}} className="my-0">
-      <AdminDashboard />
+      <div style={{minHeight: "65vh"}} className="my-0 container mx-auto">
+      <UploadFileForm />
       </div>
       </>
       )
       }
 }
 
-export {AdminDashboardPage}
+export {UploadFilePage}
