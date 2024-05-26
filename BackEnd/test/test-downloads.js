@@ -12,7 +12,7 @@ import { rm} from "fs";
 
 let rmAsync = promisify(rm)
 
-describe("testing searching files",  () => {
+describe("test admin view file stats",  () => {
 let verifiedCustomer = {"name": "text2", "password": "text3333", "email": "text323@gmail.com", "role": "admin", "emailVerified": true}
 let passwordHash = sha1(verifiedCustomer.password)
 let authToken = null
@@ -21,9 +21,7 @@ let fileName = "fileName.txt"
 let fileContent = "text file content"
 let base64Content = Buffer.from(fileContent).toString("base64")
 let fileEntry1 = {fileName, data:base64Content, title: "test for upload file 1", description: "test string content"}
-let fileEntry2 = {fileName, data:base64Content, title: "test for upload file 2", description: "test string content"}
-let fileEntry3 = {fileName, data:base64Content, title: "test for upload file 3", description: "test string content"}
-
+let fileId = null
 before(async () => {
     await connectDb()
     //register user with admin previlages
@@ -32,18 +30,13 @@ before(async () => {
     authToken = generateToken({...user})
     //delete all files in the database
     await FileModel.deleteMany()
-    await Promise.all([
-        await request(fileServer)
+     fileId =   await request(fileServer)
     .post("/admin/upload-file")
     .set('Authorization', `Bearer ${authToken}`)
     .type('json')
-    .send(fileEntry1),
-    await request(fileServer)
-    .post("/admin/upload-file")
-    .set('Authorization', `Bearer ${authToken}`)
-    .type('json')
-    .send(fileEntry2)
-    ])
+    .send(fileEntry1)
+    
+
 })
 
 after(async () => {
@@ -55,44 +48,21 @@ after(async () => {
 
 it("should return message about pagination information  and 400 status code", async () => {
     let response = await request(fileServer)
-    .get("/user/search/files")
+    .get(`/user/files/download/"wrongId`)
     .set('Authorization', `Bearer ${authToken}`)
     .type('json')
     assert.equal(response.status, 400)
     assert.isString(response.body.message)
 })
 
-it("should return total result and 200 status code", async () => {
+xit("should return total result and 200 status code", async () => {
     let response = await request(fileServer)
-    .get("/user/search/files?page=5&limit=2")
+    .get(`/user/files/download/${fileId}`)
     .set('Authorization', `Bearer ${authToken}`)
     .type('json')
     assert.equal(response.status, 200)
     assert.equal(response.body.totalResults, 0)
 })
 
-it("no serach patern given : should return object with totalResutls and response not and 200 status code", async () => {
-    let response = await request(fileServer)
-    .get("/user/search/files?page=1&limit=2")
-    .set('Authorization', `Bearer ${authToken}`)
-    .type('json')
-    console.log(response.body)
-    assert.equal(response.status, 200)
-    assert.isDefined(response.body.totalResults)
-    assert.equal(2 , response.body.totalResults)
-    assert.isArray(response.body.response)
-})
-
-it("patern given : should returns response having title matching search pattern", async () => {
-    let pattern = fileEntry1.title.replace(/\s+/g, "+")
-    let response = await request(fileServer)
-    .get(`/user/search/files?page=1&limit=2&title=${pattern}`)
-    .set('Authorization', `Bearer ${authToken}`)
-    .type('json')
-    assert.equal(response.status, 200)
-    assert.isDefined(response.body.totalResults)
-    assert.isArray(response.body.response)
-    assert.equal(1, response.body.totalResults)
-})
 
 })

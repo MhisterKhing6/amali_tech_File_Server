@@ -15,9 +15,13 @@ class FileController {
         //check if if file exist
         if(!fileDetails)
             return res.status(400).json({"id": "wrong file Id"})
+        //increment downloads
+        fileDetails = fileDetails.downloads + 1
+        //save changes
+        await fileDetails.save()
         //send download file
         let fileName = path.basename(fileDetails.filePath)
-        return res.download(fileDetails.filePath,fileName)
+        return res.download(fileDetails.filePath, fileName)
     }
 
     static searchFiles = async (req, res) => {

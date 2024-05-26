@@ -12,7 +12,7 @@ import { rm} from "fs";
 
 let rmAsync = promisify(rm)
 
-describe("user login",  () => {
+describe("test uploading user files",  () => {
 let verifiedCustomer = {"name": "text2", "password": "text3333", "email": "text323@gmail.com", "role": "admin", "emailVerified": true}
 let passwordHash = sha1(verifiedCustomer.password)
 let authToken = null
