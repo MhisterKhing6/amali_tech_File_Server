@@ -12,6 +12,7 @@ import { LoginAdminPage } from './pages/adminLoginPage';
 import { AdminDashboardPage } from './pages/adminDasboardPage';
 import { UploadFilePage } from './pages/uploadFilePage';
 import { FileStatsPage } from './pages/fileStatsPage';
+import { CustomerFeedPage } from './pages/customerFeedPage';
 
 function App() {
   return (
@@ -20,7 +21,6 @@ function App() {
       <Route path='/auth/verify/customer' element={<VerifyEmailPage/>} />
       <Route path='/auth/customer/account/congratulations' element={<CongratulationsPage/>} />
       <Route path='/auth/login/customer' element={<LoginCustomerPage/>} />
-      <Route path='/customer/feed' element={<p>Customer Feed page</p>} />
       <Route path='/user/request/password-reset' element={<ForgetPasswordRequestPage />} />
       <Route path='/user/reset-password/verificationCode' element = {<div><VerifyEmailPage/></div>} />
       <Route path='/auth/user/update-password' element={<NewPassworPage />} />
@@ -29,6 +29,7 @@ function App() {
       <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
       <Route path='/admin/upload-file' element={<UploadFilePage />} />
       <Route path='/admin/view-file' element={<FileStatsPage />} />
+      <Route path='/customer/feed' element={<CustomerFeedPage />} />
     </Routes>
   );
 }
