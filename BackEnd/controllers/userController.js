@@ -264,6 +264,12 @@ class UserController  {
         //send response to user
         res.status(200).json({"message": "new message sent"})
     }
+
+    static me = async (req, res) => {
+        //returns information about a user
+        return res.status(200).json({name: req.user.name, email: req.user.email, id:req.user._id.toString()})
+    }
+
 }
 
 
