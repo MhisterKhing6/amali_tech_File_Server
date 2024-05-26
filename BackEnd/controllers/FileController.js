@@ -19,5 +19,39 @@ class FileController {
         let fileName = path.basename(fileDetails.filePath)
         return res.download(fileDetails.filePath,fileName)
     }
+
+    static searchFiles = async (req, res) => {
+        /**
+         * getFiles returns files with pagination
+         * @param {object} req: request object
+         * @param {object} res : response object
+         */
+        //get pagination information
+        let page = req.query.page
+        let limit = req.query.limit 
+        //calculate ofset
+        if(!(page && limit))
+            return res.status(400).json({"message": "pagination information, page and limit not given in query string"})
+        //calculate offset
+        let offset = (page - 1) * limit
+        //check for search patter
+        let searchPattern = req.query.title
+        //convert + to space
+        let results = null
+        if(searchPattern) {
+            //convert + to space
+            let pattern = searchPattern.replace(/\+/g, " ") // spaces are not allowed in url
+            //search database with pattern
+            results = await FileModel.find({title: new RegExp(pattern, 'i')}).skip(offset).limit(limit).select("title description") //check if title contain serch patter
+
+        }
+        else 
+            results = await FileModel.find().skip(offset).limit(limit).select("title description")
+        //convert id to String 
+        let response = results.map(file => {
+                return {title: file.title, description:file.description, id:file._id.toString()}
+        })
+        return res.status(200).json({"totalResults" : response.length, response})
+    }
 }
 export {FileController}

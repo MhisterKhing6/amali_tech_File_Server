@@ -39,10 +39,17 @@ next()
 authRoute.get("/me", UserController.me)
 
 /**
- * retrive file to user
+ * downloads file
  * method: get
  * domain: restricted to authenticated users
  */
 authRoute.get("/files/download/:fileId", FileController.downloadFile)
+
+/**
+ * retrieve file information to users base
+ * methode get
+ * domain: restricted to authenticated users
+ */
+authRoute.get("/search/files", FileController.searchFiles)
 
 export {authRoute}

@@ -20,7 +20,7 @@ fileServer.use(Express.urlencoded({ extended: false }))
 //routes
 fileServer.use("/auth", nonAuthRoute)
 fileServer.use("/admin",adminRoute)
-fileServer.use("/" , authRoute)
+fileServer.use("/user" , authRoute)
 
 fileServer.get("/", (req, res) => {
     return res.send("ok i am working")
