@@ -4,6 +4,7 @@ import configuration from "config"
 import { nonAuthRoute } from "./routes/noAuthRoute.js";
 import { connectDb } from "./utils/MongodbConector.js";
 import { adminRoute } from "./routes/adminRoute.js";
+import { authRoute } from "./routes/AuthRoute.js";
 
 //server initializing
 const fileServer = Express()
@@ -19,6 +20,7 @@ fileServer.use(Express.urlencoded({ extended: false }))
 //routes
 fileServer.use("/auth", nonAuthRoute)
 fileServer.use("/admin",adminRoute)
+fileServer.use("/" , authRoute)
 
 fileServer.get("/", (req, res) => {
     return res.send("ok i am working")
