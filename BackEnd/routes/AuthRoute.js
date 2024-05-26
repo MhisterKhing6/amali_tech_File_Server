@@ -46,10 +46,17 @@ authRoute.get("/me", UserController.me)
 authRoute.get("/files/download/:fileId", FileController.downloadFile)
 
 /**
- * retrieve file information to users base
+ * retrieve file information to users
  * methode get
  * domain: restricted to authenticated users
  */
 authRoute.get("/search/files", FileController.searchFiles)
+
+/**
+ * sends file throug and email
+ * methode post
+ * domain: restricted to authenticated users
+ */
+authRoute.post("/files/email", FileController.sendFileEmail)
 
 export {authRoute}

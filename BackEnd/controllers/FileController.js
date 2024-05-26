@@ -2,6 +2,7 @@
 import { ObjectId } from "mongodb"
 import {FileModel} from "../models/file.js"
 import path from "path"
+import { emailAttachment } from "../utils/EmailHandler.js"
 class FileController {
     static downloadFile = async (req, res) => {
         /**
@@ -56,6 +57,29 @@ class FileController {
                 return {title: file.title, description:file.description, id:file._id.toString()}
         })
         return res.status(200).json({"totalResults" : response.length, response})
+    }
+
+    static sendFileEmail = async (req, res) => {
+        /**
+         * sendFileEmaill: sends file with email as attachment
+         * @param {object} req: http request object
+         * @param {object} res: http response object
+         */
+        let details = req.body
+        //check if all details are given 
+        if(!(details.email && details.fileId))
+            return res.status(400).json({"message": "fields missing"})
+        //retrieve file details from database
+        let fileEntry = await FileModel.findOne({"_id": new ObjectId(details.fileId)})
+        //form attachment object file
+        if(!fileEntry)
+            return res.status(400).json({message: "wrong file id"})
+        let attachments = [{fileName:path.basename(fileEntry.filePath), path:fileEntry.path}]
+        //send email
+        let response = await emailAttachment(req.user, details.email,attachments, fileEntry.description)
+        if(!response.messageId)
+            return res.status(400).json({"message": "couldn't send message"})
+        return res.status(200).json({"message":"Email sent"})
     }
 }
 export {FileController}

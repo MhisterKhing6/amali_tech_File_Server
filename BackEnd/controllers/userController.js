@@ -269,6 +269,7 @@ class UserController  {
         //returns information about a user
         return res.status(200).json({name: req.user.name, email: req.user.email, id:req.user._id.toString()})
     }
+
 }
 
 
