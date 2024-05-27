@@ -25,11 +25,37 @@ const decodeToken = (userToken) => {
         let userDetails = Jwt.verify(userToken, configuration.token.secreteKey)
         return userDetails
     }catch(err) {
-        console.log(err)
         return null
         }
 
     }
+const generateDownloadToken = (authData) => {
+    /**
+     * generateDownloadToken : generate token from userId
+     * @param {string} userId: userId to generateToken
+     * return json web token
+     */
+    const token = Jwt.sign(authData,  
+        configuration.token.downloadSecreteKey, { 
+            expiresIn: 600
+        }); 
+        return token
+}
+
+const decodeDownloadToken = (token) => {
+     /**
+     * decodeDownloadtoken : convert json web token into user id
+     * @param{string} userToken: token object for user
+     * return user details or null
+     */
+    try{
+        let id = Jwt.verify(token, configuration.token.downloadSecreteKey)
+        return id
+    }catch(err) {
+        return null
+        }
+    
+}
 
 const getAuthorizationtoken = (request) => {
         /**
@@ -53,4 +79,4 @@ const getAuthorizationtoken = (request) => {
     }
 
 
-export {generateToken, decodeToken, getAuthorizationtoken}
+export {generateToken, decodeToken, getAuthorizationtoken, generateDownloadToken, decodeDownloadToken}

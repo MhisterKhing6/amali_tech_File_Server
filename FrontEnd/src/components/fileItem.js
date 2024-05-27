@@ -3,7 +3,7 @@ import { LiaDownloadSolid } from "react-icons/lia";
 import { getToken } from '../utils/localstorage';
 import { token,  backend } from '../utils/config';
 import { useState } from "react"
-import {getFromBackend, postToBackend} from "../utils/backendCalls"
+import {postToBackend} from "../utils/backendCalls"
 
 function FileItem({file}) {
   const [show, setShow] = useState(false);
@@ -11,10 +11,7 @@ function FileItem({file}) {
   const handleShow = () => setShow(true);
   const [loading, setLoading] = useState(false) 
   let [toEmail, setToEmail] = useState("")
-  const handleDownload  = async () => {
-    //get downlaod token
-    let token  = await getFromBackend("/user/files/download/token")
-  }
+
 
 let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
   return (

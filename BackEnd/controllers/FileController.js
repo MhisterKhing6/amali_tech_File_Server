@@ -3,7 +3,17 @@ import { ObjectId } from "mongodb"
 import {FileModel} from "../models/file.js"
 import path from "path"
 import { emailAttachment } from "../utils/EmailHandler.js"
+import { generateDownloadToken } from "../utils/WebTokenController.js"
 class FileController {
+    static getFileDownloadtoken = async (req, res) => {
+        /**
+         * generate token for file download
+         * @param {object} req: http request object
+         * @param {object} res : http response object
+         */
+        let downloadToken = generateDownloadToken({id: req.user._id.toString()})
+        return res.status(200).json({token: downloadToken})
+    }
     static downloadFile = async (req, res) => {
         /**
          * downloads a given file given a file Id
@@ -19,10 +29,10 @@ class FileController {
         //increment downloads
         fileEntry.downloads = fileEntry.downloads + 1
         //save changes
-        await fileDetails.save()
+        await fileEntry.save()
         //send download file
         let fileName = path.basename(fileEntry.filePath)
-        return res.download(fileEntry.filePath, fileName)
+        return res.download(fileEntry.filePath)
     }
 
     static searchFiles = async (req, res) => {
