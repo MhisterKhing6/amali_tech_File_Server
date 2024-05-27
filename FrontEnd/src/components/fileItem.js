@@ -1,37 +1,58 @@
-import {Button} from 'react-bootstrap';
-import {Card, DropdownButton, ButtonGroup, Dropdown} from 'react-bootstrap';
+import {Card,Button, Modal, DropdownButton, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
 import { LiaDownloadSolid } from "react-icons/lia";
-import { getFromBackend, postToBackend } from '../utils/backendCalls';
 import { getToken } from '../utils/localstorage';
-import { token } from '../utils/config';
+import { token,  backend } from '../utils/config';
+import { useState } from "react"
+import {postToBackend} from "../utils/backendCalls"
 
-function FileItem({fileId}) {
+function FileItem({file}) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  let [toEmail, setToEmail] = useState("")
+
 let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
-const sendEmail = async (fileId) => {
-  //sends email to user with file Id
-  try {
-    let status = await postToBackend("/file",authToken)
-  }catch(err){
-    console.log(err)
-    alert("couldnt send email")
-  }
-}
-const downloadFile =async (fileId) => {
-  let downloadFile =  await getFromBackend(`/files/download/${fileId}`, authToken)
-  alert("downloading")
-}
   return (
     <Card>
-      <Card.Header as="h5">Featured</Card.Header>
+      <Card.Header as="h5">{file.title}</Card.Header>
       <Card.Body>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          {file.description}
         </Card.Text>
         <DropdownButton as={ButtonGroup} title={<LiaDownloadSolid style={{width:"80px", height:"30px"}}/>} id="bg-nested-dropdown">
-        <Dropdown.Item eventKey="1" onClick={ async (val) => {
-            await downloadFile(fileId)
-        }}>Download</Dropdown.Item>
-        <Dropdown.Item eventKey="2">Email</Dropdown.Item>
+        <Dropdown.Item> Download</Dropdown.Item>
+        <Dropdown.Item onClick={handleShow}>Email</Dropdown.Item>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Send Email</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+      <Form onSubmit={async (val) => {
+        val.preventDefault()
+        let response = await postToBackend("/user/files/email", {fileId:file.id, email:toEmail}, authToken)
+        if(response.status !== 200)
+            alert(response.data.message)
+        else
+            alert("message sent")
+      }}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control onChange={(val) => setToEmail(val.target.value)} type="email" placeholder="Enter email" />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </DropdownButton>
       </Card.Body>
     </Card>

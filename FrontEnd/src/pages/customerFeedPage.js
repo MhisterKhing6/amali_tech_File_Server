@@ -13,12 +13,10 @@ const CustomerFeedPage = () => {
     } else { */
       return  (
       <>
-      <div style={{minHeight: "25vh"}} className="my-0">
-      <CustomerNavBar />
-        <UserProfile />
+      <div style={{minHeight: "10vh"}} className="my-0">
       </div>
-      <div style={{minHeight: "65vh"}} className="my-0 container mx-auto">
-        <FileItem />
+      <div style={{minHeight: "65vh"}}>
+        <CustomerNavBar />
       </div>
       </>
       )
