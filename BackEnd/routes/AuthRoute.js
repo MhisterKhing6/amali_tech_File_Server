@@ -39,11 +39,11 @@ next()
 authRoute.get("/me", UserController.me)
 
 /**
- * downloads file
+ * returns authentication token for file download
  * method: get
  * domain: restricted to authenticated users
  */
-authRoute.get("/files/download/:fileId", FileController.downloadFile)
+authRoute.get("/file/download/token", FileController.getFileDownloadtoken)
 
 /**
  * retrieve file information to users

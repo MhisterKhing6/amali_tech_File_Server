@@ -1,9 +1,10 @@
 import {Card,Button, Modal, DropdownButton, ButtonGroup, Dropdown, Form, Spinner} from 'react-bootstrap';
 import { LiaDownloadSolid } from "react-icons/lia";
 import { getToken } from '../utils/localstorage';
-import { token,  backend } from '../utils/config';
+import { token} from '../utils/config';
 import { useState } from "react"
-import {postToBackend} from "../utils/backendCalls"
+import {postToBackend, getFromBackend} from "../utils/backendCalls"
+
 
 function FileItem({file}) {
   const [show, setShow] = useState(false);
@@ -12,7 +13,17 @@ function FileItem({file}) {
   const [loading, setLoading] = useState(false) 
   let [toEmail, setToEmail] = useState("")
 
-let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
+  const download = async () => {
+  let url =  `/files/download/${file.id}`
+  //get from backen
+  let link = fetch(url,getToken(token.customerTokenKey))
+  if(link.)
+  const link = document.createElement('a');
+  document.body.appendChild(link);
+  link.href = url;
+  link.setAttribute('type', 'hidden');
+  link.click();
+  } 
   return (
     <Card>
       <Card.Header as="h5">{file.title}</Card.Header>
@@ -31,7 +42,7 @@ let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : g
       <Form onSubmit={async (val) => {
         val.preventDefault()
         setLoading(true)
-        let response = await postToBackend("/user/files/email", {fileId:file.id, email:toEmail}, authToken)
+        let response = await postToBackend("/user/files/email", {fileId:file.id, email:toEmail}, getToken(token.customerTokenKey))
         if(response.status !== 200)
             alert(response.data.message)
         else

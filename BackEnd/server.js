@@ -5,6 +5,7 @@ import { nonAuthRoute } from "./routes/noAuthRoute.js";
 import { connectDb } from "./utils/MongodbConector.js";
 import { adminRoute } from "./routes/adminRoute.js";
 import { authRoute } from "./routes/AuthRoute.js";
+import { downloadRoute } from "./routes/downloadRoute.js";
 
 //server initializing
 const fileServer = Express()
@@ -21,6 +22,7 @@ fileServer.use(Express.urlencoded({ extended: false }))
 fileServer.use("/auth", nonAuthRoute)
 fileServer.use("/admin",adminRoute)
 fileServer.use("/user" , authRoute)
+fileServer.use("/download/:token", downloadRoute)
 
 fileServer.get("/", (req, res) => {
     return res.send("ok i am working")
