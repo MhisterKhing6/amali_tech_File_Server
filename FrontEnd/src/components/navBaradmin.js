@@ -32,10 +32,9 @@ function AdminNavBar() {
               </Offcanvas.Header>
               <Offcanvas.Body className='p-2'>
                 <Nav className="justify-content-end flex-grow-1 pe-3 navList">
-                  <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="/lecturer/create/assignment">Upload</Nav.Link>
-                  <Nav.Link href="#action2">View</Nav.Link>
-                  <Nav.Link href="#action2">Search</Nav.Link>
+                  <Nav.Link href="/admin/dashboard">Home</Nav.Link>
+                  <Nav.Link href="/admin/upload-file">Upload</Nav.Link>
+                  <Nav.Link href="/admin/view-file">View</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

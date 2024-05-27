@@ -1,4 +1,4 @@
-import {Card,Button, Modal, DropdownButton, ButtonGroup, Dropdown, Form} from 'react-bootstrap';
+import {Card,Button, Modal, DropdownButton, ButtonGroup, Dropdown, Form, Spinner} from 'react-bootstrap';
 import { LiaDownloadSolid } from "react-icons/lia";
 import { getToken } from '../utils/localstorage';
 import { token,  backend } from '../utils/config';
@@ -9,6 +9,7 @@ function FileItem({file}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [loading, setLoading] = useState(false) 
   let [toEmail, setToEmail] = useState("")
 
 let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
@@ -29,29 +30,26 @@ let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : g
         <Modal.Body>
       <Form onSubmit={async (val) => {
         val.preventDefault()
+        setLoading(true)
         let response = await postToBackend("/user/files/email", {fileId:file.id, email:toEmail}, authToken)
         if(response.status !== 200)
             alert(response.data.message)
         else
             alert("message sent")
+        setLoading(false)
       }}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control onChange={(val) => setToEmail(val.target.value)} type="email" placeholder="Enter email" />
+        <Form.Control value={toEmail} required onChange={(val) => setToEmail(val.target.value)} type="email" placeholder="Enter email" />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <div className='spiner-parent'>
+       <Button disabled = {loading} variant="primary" type="submit">
         Submit
       </Button>
+      {loading && <Spinner className='spiner-child' />}
+      </div>
     </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
       </Modal>
       </DropdownButton>
       </Card.Body>

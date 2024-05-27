@@ -37,7 +37,7 @@ const VerifyEmail = ({verificationId,vUrl, email, redirectUrl}) => {
                             console.log(response.data)
                             alert(response.data.message)
                         } else {
-                            redirect(redirectUrl ? redirectUrl : "/auth/customer/account/congratulations", {state:{url: "/auth/customer/login", verificationId}})
+                            redirect(redirectUrl ? redirectUrl : "/auth/customer/account/congratulations", {state:{url: "/auth/login/customer", verificationId}})
                         }
                         //enable button
                         setSubmitted(false)

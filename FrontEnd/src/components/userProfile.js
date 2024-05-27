@@ -1,16 +1,21 @@
-import { Container, Row, Dropdown, Col } from "react-bootstrap"
+import { Container, Dropdown } from "react-bootstrap"
 import avatar from "../assets/prfileAvatar.png"
-import { logout } from "../utils/localstorage"
+import { getToken, logout } from "../utils/localstorage"
 import { token } from "../utils/config"
 import {useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { getFromBackend } from "../utils/backendCalls"
 
-const UserProfile = ({type}) => {
+
+
+const UserProfile = ({type, name}) => {
+    
     let redirect = useNavigate()
     return (
         <Container fluid className="d-flex px-1 w-100 justify-content-end align-items-center h-auto userProfile">
                 <Dropdown className="p-1">
                     <Dropdown.Toggle id="dropdown-basic" className="avatar d-flex justify-content-center align-items-center">
-                        <p className="mt-2 mx-1 lead">Kinglsey Botchway</p>
+                        <p className="mt-2 mx-1 lead">{name}</p>
                         <img src={avatar} style={{width:"50px", height:"50px"}} />
                     </Dropdown.Toggle>
 
