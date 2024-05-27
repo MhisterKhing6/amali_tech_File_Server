@@ -12,17 +12,17 @@ class FileController {
          */
         //get file id
         let fileId = req.params.fileId
-        let fileDetails = await FileModel.findOne({_id: new ObjectId(fileId)})
+        let fileEntry = await FileModel.findOne({_id: new ObjectId(fileId)})
         //check if if file exist
-        if(!fileDetails)
+        if(!fileEntry)
             return res.status(400).json({"id": "wrong file Id"})
         //increment downloads
-        fileDetails = fileDetails.downloads + 1
+        fileEntry.downloads = fileEntry.downloads + 1
         //save changes
         await fileDetails.save()
         //send download file
-        let fileName = path.basename(fileDetails.filePath)
-        return res.download(fileDetails.filePath, fileName)
+        let fileName = path.basename(fileEntry.filePath)
+        return res.download(fileEntry.filePath, fileName)
     }
 
     static searchFiles = async (req, res) => {
@@ -74,11 +74,15 @@ class FileController {
         //form attachment object file
         if(!fileEntry)
             return res.status(400).json({message: "wrong file id"})
-        let attachments = [{fileName:path.basename(fileEntry.filePath), path:fileEntry.path}]
+        let attachments = [{fileName:path.basename(fileEntry.filePath), path:fileEntry.filePath}]
+        console.log(attachments)
         //send email
         let response = await emailAttachment(req.user, details.email,attachments, fileEntry.description)
         if(!response.messageId)
             return res.status(400).json({"message": "couldn't send message"})
+        //update number of email sent
+        fileEntry.emailSent = fileEntry.emailSent + 1
+        await fileEntry.save()
         return res.status(200).json({"message":"Email sent"})
     }
 }
