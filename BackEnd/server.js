@@ -29,8 +29,8 @@ fileServer.get("/", (req, res) => {
 })
 
 const port = process.env.PORT || configuration.host.port
-fileServer.listen(configuration.host.port,configuration.host.ip, () => {
-    console.log(`app is listening at http://${configuration.host.ip}:${configuration.host.port}`)
+fileServer.listen(port, () => {
+    console.log(`app is listening at http://localhost:${port}`)
 })
 
 export {fileServer}

@@ -1,7 +1,6 @@
 {
     "host": {
-        "port":8000, 
-        "ip": "localhost"
+        "port":8000
     },
     "MONGO_URI": "mongodb+srv://autoccoder:mtZ90Ud5hX04X4H4@cluster0.lguajgx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     "token": {
