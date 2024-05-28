@@ -64,5 +64,10 @@ npm start
 <li>Send Search To Email</li>
 </ul>
 <h3>Deployment Links </h3>
+<hr>
  <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app">Cutomer</a> <br> 
 <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app/admin/register">Admin Interface for testing purpose</a>
+
+<h3>Database Schema</h3>
+<hr>
+<a href="https://drive.google.com/file/d/1yVu5aPue3grfJM7csbmcPPCdfC96MPag/view?usp=sharing">Database Schema </a>
