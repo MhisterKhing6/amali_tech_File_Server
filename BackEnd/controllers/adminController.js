@@ -5,7 +5,7 @@ import { getFileNameFromTitle, saveUpolaodFileDisk } from "../utils/FileHandler.
 
 class AdminController {
     /** */
-    static registerAdmin = async (req, res) => {
+    static register = async (req, res) => {
         /**
          * register: registers admin, testing purposes
          * @param {object} req: request object
