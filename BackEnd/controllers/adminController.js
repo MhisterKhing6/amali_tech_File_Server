@@ -3,6 +3,9 @@
 import { FileModel } from "../models/file.js"
 import { getFileNameFromTitle, saveUpolaodFileDisk } from "../utils/FileHandler.js"
 import { UserModel } from "../models/user.js"
+import sha1 from "sha1"
+
+
 
 class AdminController {
     /** */
@@ -26,16 +29,9 @@ class AdminController {
         try {
             let passwordHash = sha1(userDetails.password)
             let userDb = UserModel({role:"admin", emailVerified:true, name:userDetails.name, email:userDetails.email, passwordHash})
-            //send verificaion message
-            let verificationCode = generateSecretNumber()
             //save information in the Verify token database
             await userDb.save()
-            //verify object
-            let verifyObject = {"userId":userDb._id.toString(), verificationCode, type:"email"}
-            let verifyToken = await new VerifTokenModel(verifyObject).save()
-            //asynchroneously send verificatio message
-            sendEmailVerification(userDb, verificationCode)
-            res.status(201).json({"id": userDb._id, verificationId: verifyToken._id.toString()})
+            res.status(201).json({"id": userDb._id})
         } catch(err) {
             console.log(err)
             return res.status(501).json({"message": "internal error"})
