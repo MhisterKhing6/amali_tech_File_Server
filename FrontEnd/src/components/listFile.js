@@ -7,8 +7,7 @@ import { token } from '../utils/config';
 
 function FileItem({fileId}) {
 const downloadFile =async (fileId) => {
-  let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
-  let downloadFile =  await getFromBackend(`/files/download/${fileId}`, authToken)
+  let downloadFile =  await getFromBackend(`/files/download/${fileId}`, getToken(token.customerTokenKey))
   alert("downloading")
 }
   return (

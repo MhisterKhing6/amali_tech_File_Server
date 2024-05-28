@@ -14,7 +14,7 @@ const ViewFiles = ({files}) => {
                 {
                     files.map(file => {
                         return (
-                            <Col key={file.title} xs={6} md={4} lg = {3}>
+                            <Col className="mb-1" key={file.title} xs={6} md={4} lg = {3}>
                             <FileItem file={file} />
                             </Col>
                         )

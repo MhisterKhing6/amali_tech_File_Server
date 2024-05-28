@@ -29,7 +29,7 @@ function CustomerFeed() {
   }, [])
   return (
     <>
-    <Container fluid>
+    <Container fluid className='p-0'>
       {['md'].map((expand) => (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>

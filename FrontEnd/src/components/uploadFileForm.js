@@ -29,16 +29,13 @@ const UploadFileForm = () => {
                     //submit information to backend
                     let uploadDetials = {fileName, data:fileData, title, description}
                     //post to packen
-                    console.log(getToken(token.adminTokenKey))
                     let response = await postToBackend("/admin/upload-file", uploadDetials, getToken(token.adminTokenKey))
                     if(response.status === 201){
-                        alert("upload succes")
                         setFileName("")
                         setFileData("")
                         setTitle("")
                         setDescription("")
                     }
-                    console.log(response)
                     alert(response.data.message)
                     setSubmission(false)
                     
@@ -72,7 +69,7 @@ const UploadFileForm = () => {
                         }} />
                         <Form.Control.Feedback type="valid">Please upload a file</Form.Control.Feedback>
                     </Form.Group>
-                        <Button className="w-100 my-2" type="submit">Save</Button>
+                        <Button className="w-100 my-2" type="submit">Submit</Button>
                 </Form>
             </Card>
         </Container> }

@@ -13,6 +13,7 @@ import { AdminDashboardPage } from './pages/adminDasboardPage';
 import { UploadFilePage } from './pages/uploadFilePage';
 import { FileStatsPage } from './pages/fileStatsPage';
 import { CustomerFeedPage } from './pages/customerFeedPage';
+import { RegisterAdminPage } from './pages/adminRegisterPage';
 
 function App() {
   return (
@@ -29,7 +30,10 @@ function App() {
       <Route path='/admin/dashboard' element={<AdminDashboardPage />} />
       <Route path='/admin/upload-file' element={<UploadFilePage />} />
       <Route path='/admin/view-file' element={<FileStatsPage />} />
+      <Route path = '/admin/register' element={<RegisterAdminPage />} />
       <Route path='/customer/feed' element={<CustomerFeedPage />} />
+      <Route path='/' element = {<CustomerFeedPage />} />
+      <Route path='*' element = {<h2>Page not found!!!! <br/> check the name of the address</h2>} />
     </Routes>
   );
 }

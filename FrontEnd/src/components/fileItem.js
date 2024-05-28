@@ -34,10 +34,10 @@ const handledDownload = async (val) => {
 
 let authToken = getToken(token.authToken) ? getToken(token.customerTokenKey) : getToken(token.adminTokenKey)
   return (
-    <Card>
-      <Card.Header as="h5">{file.title}</Card.Header>
+    <Card style={{height: "155px"}}>
+      <Card.Header style={{height: "350px"}}  as="h6" className='overflow-hidden shadow-lg'>{file.title}</Card.Header>
       <Card.Body>
-        <Card.Text>
+        <Card.Text style={{height:"30px", overflow:"hidden"}}>
           {file.description}
         </Card.Text>
         <DropdownButton as={ButtonGroup} title={<LiaDownloadSolid style={{width:"80px", height:"30px"}}/>} id="bg-nested-dropdown">

@@ -12,7 +12,7 @@ const UserProfile = ({type, name}) => {
     
     let redirect = useNavigate()
     return (
-        <Container fluid className="d-flex px-1 w-100 justify-content-end align-items-center h-auto userProfile">
+        <Container fluid className="d-flex px-1 w-100 justify-content-end align-items-center h-auto userProfile mb-0 m-0">
                 <Dropdown className="p-1">
                     <Dropdown.Toggle id="dropdown-basic" className="avatar d-flex justify-content-center align-items-center">
                         <p className="mt-2 mx-1 lead">{name}</p>

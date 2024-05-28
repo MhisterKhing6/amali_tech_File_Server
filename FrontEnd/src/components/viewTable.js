@@ -2,7 +2,7 @@ import {Table} from 'react-bootstrap'
 
 function FilesStats({files}) {
   return (
-    <Table striped bordered hover className="container mx-auto">
+    <Table striped bordered hover responsive>
       <thead>
         <tr>
           <th>#</th>
@@ -15,7 +15,7 @@ function FilesStats({files}) {
         {files.map((val, index) => {
            return  (<tr key={val.title}>
             <td>{index + 1 }</td>
-            <td>{val.title}</td>
+            <td>{val.title.slice(0,30)}</td>
             <td>{val.emailSent}</td>
             <td>{val.downloads}</td>
           </tr>)
