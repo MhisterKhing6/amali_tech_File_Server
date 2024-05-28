@@ -82,4 +82,4 @@ nonAuthRoute.post("/user/update-password", UserController.updatePassword)
  * method: get
  * domain: private
  */
-adminRoute.post("/register/admin", AdminController.register)
+nonAuthRoute.post("/register/admin", AdminController.register)
