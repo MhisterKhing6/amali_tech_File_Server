@@ -60,10 +60,14 @@ function CustomerFeed() {
                 }}>
                   <Form.Control
                     onChange={async (val) => {
-                      setPattern(pattern)
-                      let files  = await getFromBackend(`/user/search/files?page=1&limit=20&title=${val.target.value}`, getToken(token.customerTokenKey))
-                      if(files.status === 200)
-                        setFiles(files.data.response)
+                      if(val.target.value) {
+                        let pattern = val.target.value.replace(/\s+/g,"+")
+                        setPattern(pattern)
+                        let files  = await getFromBackend(`/user/search/files?page=1&limit=20&title=${pattern}`, getToken(token.customerTokenKey))
+                        if(files.status === 200)
+                          setFiles(files.data.response)
+                      }
+                      
                     }}
                     type="search"
                     placeholder="Search"
