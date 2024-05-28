@@ -63,3 +63,6 @@ npm start
 <li>Send File To Email</li>
 <li>Send Search To Email</li>
 </ul>
+<h3>Deployment Links </h3>
+ <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app">Cutomer</a> <br> 
+<a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app/admin/register">Admin Interface for testing purpose</a>
