@@ -21,20 +21,17 @@ class UserController  {
          */
         let userDetails = req.body
         //check if all required user details are given
-        if(!(userDetails.email && userDetails.password && userDetails.name && userDetails.type))
+        if(!(userDetails.email && userDetails.password && userDetails.name))
             return res.status(400).json({"message": "fields missing"})
         //check if the user is already register
         let alreadyUser = await UserModel.findOne({email: userDetails.email})
         if(alreadyUser)
             return res.status(400).json({"message": "user with the same email already registered"})
         
-        //check if the type rigth user role is given
-        if(!(userDetails.type === "customer" ))
-            return res.status(401).json({"message": "wrong user role"})
         //save the user to the database
         try {
             let passwordHash = sha1(userDetails.password)
-            let userDb = UserModel({...userDetails, passwordHash})
+            let userDb = UserModel({name:userDetails.name, email:userDetails.email, passwordHash})
             //send verificaion message
             let verificationCode = generateSecretNumber()
             //save information in the Verify token database
