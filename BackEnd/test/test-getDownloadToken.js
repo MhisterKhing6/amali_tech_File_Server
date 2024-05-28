@@ -19,7 +19,6 @@ before(async () => {
     await connectDb()
     //register user with admin previlages
     user = await new UserModel({...verifiedCustomer, passwordHash}).save()
-    console.log(user)
     //get token for user login
     authToken = generateToken({...user})
     //delete all files in the database

@@ -85,7 +85,6 @@ class FileController {
         if(!fileEntry)
             return res.status(400).json({message: "wrong file id"})
         let attachments = [{fileName:path.basename(fileEntry.filePath), path:fileEntry.filePath}]
-        console.log(attachments)
         //send email
         let response = await emailAttachment(req.user, details.email,attachments, fileEntry.description)
         if(!response.messageId)

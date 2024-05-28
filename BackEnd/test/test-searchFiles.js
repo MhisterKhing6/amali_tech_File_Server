@@ -76,7 +76,6 @@ it("no serach patern given : should return object with totalResutls and response
     .get("/user/search/files?page=1&limit=2")
     .set('Authorization', `Bearer ${authToken}`)
     .type('json')
-    console.log(response.body)
     assert.equal(response.status, 200)
     assert.isDefined(response.body.totalResults)
     assert.equal(2 , response.body.totalResults)
