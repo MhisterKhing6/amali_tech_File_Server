@@ -2,6 +2,7 @@
 
 import { FileModel } from "../models/file.js"
 import { getFileNameFromTitle, saveUpolaodFileDisk } from "../utils/FileHandler.js"
+import { UserModel } from "../models/user.js"
 
 class AdminController {
     /** */
