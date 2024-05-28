@@ -65,9 +65,9 @@ npm start
 </ul>
 <h3>Deployment Links </h3>
 <hr>
- <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app">Cutomer</a> <br> 
-<a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app/admin/register">Admin Interface for testing purpose</a>
+ <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app" target="_blank ">Cutomer</a> <br> 
+<a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app/admin/register" target="_blank">Admin Interface for testing purpose</a>
 
 <h3>Database Schema</h3>
 <hr>
-<a href="https://drive.google.com/file/d/1yVu5aPue3grfJM7csbmcPPCdfC96MPag/view?usp=sharing">Database Schema </a>
+<a href="https://drive.google.com/file/d/1yVu5aPue3grfJM7csbmcPPCdfC96MPag/view?usp=sharing" target="_blank">Database Schema </a>
