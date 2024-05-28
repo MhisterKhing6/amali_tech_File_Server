@@ -1,8 +1,7 @@
 
 const backend = {
-    url : "http://localhost:8000"
-}
-
+    url : "localhost:5000"
+ }
 const token = {
     customerTokenKey: "s98873sRsdss",
     adminTokenKey: "skslekrlekrjelj"
