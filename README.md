@@ -11,9 +11,8 @@ The file `Backend/config/default.json` contains configuration details used to se
   - **port**: Sets the port the backend server is listening on.
   *Example:* If the backend server is configured to run on IP 18.53.2.1 and listens on port 5000, then `ip: "18.52.2.1"`, `port:5000`.
 
-- **db**: Used for database connection.
-  - **connectionString**: Any MongoDB accepted connection string.
-  *Example:* If the backend server uses MongoDB Atlas with connection string `xxxxxx`, then `connectionString: "xxxxxx"`.
+- **MONGO_URL**: A mongo db connection String
+  *Example:* If the backend server uses MongoDB Atlas with connection string `xxxxxx`, then `MONGO_URI: "xxxxxx"`.
 
 - **token**: Used for setting Json web authentication secrets.
   - **secretKey**: Secret for user authentication token.
