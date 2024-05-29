@@ -70,4 +70,4 @@ npm start
 
 <h3>Database Schema</h3>
 <hr>
-<a href="https://drive.google.com/file/d/1yVu5aPue3grfJM7csbmcPPCdfC96MPag/view?usp=sharing" target="_blank">Database Schema </a>
+<a href="https://drive.google.com/file/d/1E7zyzd_CP0tadYXEXTv5DbvmjrTbzYBv/view?usp=sharing" target="_blank">Database Schema </a>
