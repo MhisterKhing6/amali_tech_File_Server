@@ -67,6 +67,7 @@ npm start
 <hr>
  <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app" target="_blank ">Cutomer</a> <br> 
 <a href="https://frontend-8z9dn8c5h-kingsley-botchways-projects.vercel.app/admin/register" target="_blank">Admin Interface for testing purpose</a>
+<h5>NB:: No files are uploaded on the server,to upload a file register as an admin using the admin interface and upload a file, the maximum file size shouldnt be more than 40mb.</h5>
 
 <h3>Database Schema</h3>
 <hr>
